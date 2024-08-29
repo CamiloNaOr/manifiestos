@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: h2-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-rest
+  template:
+    metadata:
+      labels:
+        app: api-rest
+    spec:
+      containers:
+      - name: api-rest
+        image: camilonavarro/parcial-patrones:1.0.0 
+        ports:
+        - containerPort: 8080  
+        - containerPort: 8082  
+        volumeMounts:
+        - name: h2-data
+          mountPath: /data/h2
+      volumes:
+      - name: h2-data
+        persistentVolumeClaim:
+          claimName: h2-data-pvc
